@@ -20,7 +20,31 @@ border-radius: 50%;
 .header-icons{
     display: flex;
     justify-content: right;
+    gap: 14px;
     align-items: center;
     width: 100%;
     height: 100%;
+}
+
+.header-icon{
+    width: 28px;
+    height: 28px;
+    color: #aebac1;
+}
+
+.search-input{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #111b21;
+}
+
+.search{
+    position: relative;
+    width: 359px;
+    height: 35px;
+}
+
+.search-icon{
+    /* position: absolute; */
 }

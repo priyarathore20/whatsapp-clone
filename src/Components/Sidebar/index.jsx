@@ -1,7 +1,8 @@
 import React from "react";
-import { MdGroups2, MdHistory } from "react-icons/md";
+import { MdHistory } from "react-icons/md";
 import { LuMessageSquarePlus } from "react-icons/lu";
 import { BsFilter, BsSearch, BsThreeDotsVertical } from "react-icons/bs";
+import { HiMiniUserGroup } from "react-icons/hi2";
 import ChatCard from "../ChatCard";
 import "./styles.css";
 
@@ -17,18 +18,22 @@ const Sidebar = () => {
           />
         </div>
         <div className="header-icons">
-          <MdGroups2 />
-          <MdHistory />
-          <LuMessageSquarePlus />
-          <BsThreeDotsVertical />
+          <HiMiniUserGroup className="header-icon" />
+          <MdHistory className="header-icon" />
+          <LuMessageSquarePlus className="header-icon" />
+          <BsThreeDotsVertical className="header-icon" />
         </div>
       </header>
-      <div>
+      <div className="search-input">
         <div>
           <span>
-            <BsSearch />
+            <BsSearch className="search-icon" />
           </span>
-          <input type="search" placeholder="Search or start new chat" />
+          <input
+            className="search"
+            type="search"
+            placeholder="Search or start new chat"
+          />
         </div>
         <div>
           <BsFilter />
