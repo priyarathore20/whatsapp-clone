@@ -7,7 +7,11 @@ const LandingPage = () => {
     <div className="login-page">
       <div className="login-navbar">
         <div className="logo">
-          <RiWhatsappFill className="login-icon" />
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/767px-WhatsApp.svg.png"
+            alt=""
+            className="login-icon"
+          />
           <header className="logo-title">whatsapp web</header>
         </div>
       </div>
@@ -29,12 +33,16 @@ const LandingPage = () => {
             <p className="number">
               +91 <input className="number-input" type="text" />
             </p>
-            <button>Next</button>
+            <button className="login-btn">Next</button>
           </div>
           <div className="login-tutorial">
-            <p>Tutorial</p>
-            <p>Need help to get started?</p>
-            <video src="https://web.whatsapp.com/whatsapp-webclient-login_c09223f0813e7c3adc16476cba2a5d0d.mp4"></video>
+            <p className="login-tutorial-heading">Tutorial</p>
+            <a
+              className="tutorial-link"
+              href="https://www.youtube.com/watch?v=zzCy6gZAWQk"
+            >
+              Need help to get started?
+            </a>
           </div>
         </div>
       </div>

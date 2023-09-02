@@ -1,0 +1,26 @@
+.sidebar{
+    width: 447px;
+    height: 739px;
+    border-right: 1px solid #ccc;
+}
+
+.sidebar-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 16px;
+}
+
+.avatar-img{
+height: 40px;
+width: 40px;
+border-radius: 50%;
+}
+
+.header-icons{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
