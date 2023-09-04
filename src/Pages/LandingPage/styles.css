@@ -47,8 +47,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* z-index: 1; */
-  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+    position: absolute;
+    width: 100%;
 }
 
 .login-window {
@@ -58,7 +61,8 @@
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  width: 1000px;
+  max-width: 1000px;
+  width: 100%;
 }
 
 .login-window-details {

@@ -36,7 +36,7 @@ const Sidebar = () => {
           />
         </div>
         <div>
-          <BsFilter />
+          <BsFilter className="header-icon" />
         </div>
       </div>
       <ChatCard />
