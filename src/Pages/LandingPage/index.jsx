@@ -1,22 +1,26 @@
 import React from "react";
 import { RiWhatsappFill } from "react-icons/ri";
-import "./styles.css";
+import "./LandingPage.styled.js";
+import {
+  LoginBox,
+  LoginPage,
+  LoginTutorial,
+  LoginWindow,
+} from "./LandingPage.styled.js";
 
 const LandingPage = () => {
   return (
-    <div className="login-page">
-      <div className="login-navbar">
+    <LoginPage>
+      <div className="login-navbar"></div>
+      <LoginBox>
         <div className="logo">
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/767px-WhatsApp.svg.png"
             alt=""
-            className="login-icon"
           />
           <header className="logo-title">whatsapp web</header>
         </div>
-      </div>
-      <div className="login-box">
-        <div className="login-window">
+        <LoginWindow>
           <div className="login-window-details">
             <p className="number-title">Enter phone number</p>
             <p className="number-para">
@@ -35,18 +39,18 @@ const LandingPage = () => {
             </p>
             <button className="login-btn">Next</button>
           </div>
-          <div className="login-tutorial">
+          <LoginTutorial>
             <p className="login-tutorial-heading">Tutorial</p>
             <a
               className="tutorial-link"
-              href="https://www.youtube.com/watch?v=zzCy6gZAWQk"
+              href="https://faq.whatsapp.com/1317564962315842/?cms_platform=web&lang=en"
             >
               Need help to get started?
             </a>
-          </div>
-        </div>
-      </div>
-    </div>
+          </LoginTutorial>
+        </LoginWindow>
+      </LoginBox>
+    </LoginPage>
   );
 };
 

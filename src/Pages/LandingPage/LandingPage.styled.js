@@ -1,16 +1,10 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, S Geneva, Verdana, sans-serif;
-}
+import styled from 'styled-components'
 
-.login-page {
+export const LoginPage = styled.div`
   background-color: #111b21;
   width: 100%;
   height: 100vh;
   position: relative;
-}
 
 .login-navbar {
   background-color: #00a884;
@@ -18,6 +12,26 @@
   width: 100%;
   height: 222px;
 }
+
+img{
+  height: 39px;
+  width: 39px;
+  fill: #00e676;
+  color: white;
+  outline: #fff;
+}
+` 
+
+export const LoginBox =styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+    position: absolute;
+    width: 100%;
 
 .logo {
   display: flex;
@@ -27,13 +41,6 @@
   margin: 27px 98px 28px;
 }
 
-.login-icon {
-  height: 39px;
-  width: 39px;
-  fill: #00e676;
-  color: white;
-  outline: #fff;
-}
 
 .logo-title {
   font-size: 18px;
@@ -43,18 +50,9 @@
   margin-left: 14px;
 }
 
-.login-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-    position: absolute;
-    width: 100%;
-}
+`
 
-.login-window {
+export const LoginWindow = styled.div`
   background-color: #fff;
   height: 600px;
   display: flex;
@@ -63,9 +61,8 @@
   flex-direction: column;
   max-width: 1000px;
   width: 100%;
-}
 
-.login-window-details {
+  .login-window-details {
   padding: 60px;
   display: flex;
   align-items: center;
@@ -117,8 +114,6 @@
   justify-content: flex-start;
   align-items: center;
   border-radius: 4px;
-  /* /* display: flex;
-align-items: center; */
 }
 
 .number-input {
@@ -137,15 +132,16 @@ align-items: center; */
   margin-bottom: 5px;
 }
 
-.login-tutorial{
+`
+
+export const LoginTutorial = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   height: 200px;
-}
 
-.login-tutorial-heading{
+  .login-tutorial-heading{
   color: #415258;
   font-size: 28px;
   margin: 0px 0px 16px;
@@ -156,3 +152,7 @@ align-items: center; */
   font-size: 14px;
   color: #008069;
 }
+`
+
+
+

@@ -1,14 +1,14 @@
 import React from "react";
 import Sidebar from "../../Components/Sidebar";
 import ChatPage from "../../Components/ChatPage";
-import "./styles.css";
+import { Home } from "./Home.styled";
 
 const HomePage = () => {
   return (
-    <div className="home-content">
+    <Home>
       <Sidebar />
       <ChatPage />
-    </div>
+    </Home>
   );
 };
 
