@@ -1,24 +1,31 @@
 import React from "react";
-import "./styles.css";
+import "./styles.js";
+import {
+  ChatCardAvatar,
+  ChatCardWrapper,
+  ContactName,
+  Message,
+  Messages,
+  TimeStamp,
+} from "./styles.js";
 
 const ChatCard = () => {
   return (
-    <div className="chat-card">
-      <div className="chat-avatar">
+    <ChatCardWrapper>
+      <ChatCardAvatar>
         <img
-          className="chat-avatar-img"
           src="https://img.freepik.com/premium-vector/portrait-young-man-with-beard-hair-style-male-avatar-vector-illustration_266660-423.jpg?w=2000"
           alt=""
         />
-      </div>
-      <div className="messages">
-        <div className="contact-name">Mr. xyz</div>
-        <div className="message">~ Hello</div>
-      </div>
+      </ChatCardAvatar>
+      <Messages>
+        <ContactName>Mr. xyz</ContactName>
+        <Message>~ Hello</Message>
+      </Messages>
       <div>
-        <p className="timestamp">5:30 Pm</p>
+        <TimeStamp>5:30 Pm</TimeStamp>
       </div>
-    </div>
+    </ChatCardWrapper>
   );
 };
 
