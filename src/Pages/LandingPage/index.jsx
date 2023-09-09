@@ -1,5 +1,4 @@
-import React from "react";
-import { RiWhatsappFill } from "react-icons/ri";
+import React, { useState } from "react";
 import "./LandingPage.styled.js";
 import {
   LoginBox,
@@ -7,8 +6,35 @@ import {
   LoginTutorial,
   LoginWindow,
 } from "./LandingPage.styled.js";
+import app from "../../firebaseConfig.js";
+import { getAuth, signInWithPhoneNumber } from "firebase/auth";
 
 const LandingPage = () => {
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
+  const [confirmationResult, setConfirmationResult] = useState(null);
+  const auth = getAuth(app);
+
+  const handleSendCode = async () => {
+    try {
+      const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber);
+      console.log(confirmationResult);
+      setConfirmationResult(confirmationResult);
+    } catch (error) {
+      console.error("Error sending verification code:", error);
+    }
+  };
+
+  const handleVerifyCode = async () => {
+    try {
+      const userCredential = await confirmationResult.confirm(verificationCode);
+      const user = userCredential.user;
+      console.log("Phone number authentication successful. User:", user);
+    } catch (error) {
+      console.error("Error verifying code:", error);
+    }
+  };
+
   return (
     <LoginPage>
       <div className="login-navbar"></div>
@@ -35,9 +61,17 @@ const LandingPage = () => {
               <span className="flag-name">India</span>
             </button>
             <p className="number">
-              +91 <input className="number-input" type="text" />
+              +91{" "}
+              <input
+                className="number-input"
+                type="text"
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                value={phoneNumber}
+              />
             </p>
-            <button className="login-btn">Next</button>
+            <button onClick={handleSendCode} className="login-btn">
+              Next
+            </button>
           </div>
           <LoginTutorial>
             <p className="login-tutorial-heading">Tutorial</p>

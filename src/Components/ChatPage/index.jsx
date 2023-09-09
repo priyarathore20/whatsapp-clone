@@ -2,7 +2,7 @@ import React from "react";
 import { AiFillLock } from "react-icons/ai";
 import {
   Chatpage,
-  ChatpageImg,
+  ChatpageImgWrapper,
   DownloadHead,
   DownloadPara,
 } from "./ChatPage.styled";
@@ -10,7 +10,7 @@ import {
 const ChatPage = () => {
   return (
     <Chatpage>
-      <ChatpageImg>
+      <ChatpageImgWrapper>
         <img src="image/whatsapp.png" alt="" />
         <DownloadHead>Download Whatsapp for Windows</DownloadHead>
         <DownloadPara>
@@ -18,7 +18,7 @@ const ChatPage = () => {
           download the Windows app.
         </DownloadPara>
         <button>Get the app</button>
-      </ChatpageImg>
+      </ChatpageImgWrapper>
       <div className="encrypt-msg">
         <AiFillLock />
         <p>End-to-end encrypted</p>
