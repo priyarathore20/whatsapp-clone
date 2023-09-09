@@ -1,19 +1,24 @@
 import React from "react";
 import { AiFillLock } from "react-icons/ai";
-import { Chatpage, chatpageImg, downloadHead } from "./ChatPage.styled";
+import {
+  Chatpage,
+  ChatpageImg,
+  DownloadHead,
+  DownloadPara,
+} from "./ChatPage.styled";
 
 const ChatPage = () => {
   return (
     <Chatpage>
-      <chatpageImg>
+      <ChatpageImg>
         <img src="image/whatsapp.png" alt="" />
-        <downloadHead>Download Whatsapp for Windows</downloadHead>
-        <p>
+        <DownloadHead>Download Whatsapp for Windows</DownloadHead>
+        <DownloadPara>
           Make calls, share your screen and get a faster experience when you
           download the Windows app.
-        </p>
+        </DownloadPara>
         <button>Get the app</button>
-      </chatpageImg>
+      </ChatpageImg>
       <div className="encrypt-msg">
         <AiFillLock />
         <p>End-to-end encrypted</p>
