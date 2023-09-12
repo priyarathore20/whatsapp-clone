@@ -51,4 +51,10 @@ export const Encryption = styled.div`
 display: none;
 width: 100%;
 height: 15px;
+
+p{
+  height: 14px;
+  color: #667781;
+  
+}
 `

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 export const SidebarWrapper = styled.div`
   width: 447px;
@@ -29,9 +29,14 @@ export const HeaderIcons = styled.div`
 `
 
 export const HeaderIcon = styled.div`
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   color: #aebac1;
+
+  svg{
+    height: 100%;
+    width: 100%;
+  }
 `
 
 export const SearchInput = styled.div`
@@ -54,7 +59,7 @@ input{
   border: none;
 }
 
-span{
+svg{
   color: #aebac1;
   width: 20px;
   vertical-align: middle;

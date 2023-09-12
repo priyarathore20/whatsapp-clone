@@ -49,7 +49,7 @@ const Sidebar = () => {
           <input type="search" placeholder="Search or start new chat" />
         </div>
         <div>
-          <BsFilter className="header-icon" />
+          <BsFilter />
         </div>
       </SearchInput>
       <ChatCard />

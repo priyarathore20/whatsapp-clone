@@ -5,6 +5,7 @@ import {
   ChatpageImgWrapper,
   DownloadHead,
   DownloadPara,
+  Encryption,
 } from "./ChatPage.styled";
 
 const ChatPage = () => {
@@ -19,10 +20,10 @@ const ChatPage = () => {
         </DownloadPara>
         <button>Get the app</button>
       </ChatpageImgWrapper>
-      <div className="encrypt-msg">
+      <Encryption>
         <AiFillLock />
         <p>End-to-end encrypted</p>
-      </div>
+      </Encryption>
     </Chatpage>
   );
 };
