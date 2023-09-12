@@ -6,14 +6,24 @@ import "./App.styled";
 import { GlobalStyles } from './App.styled';
 import { ThemeProvider } from 'styled-components';
 
+const darkTheme = {
+  color:{
+   body: "#111B21",
+   font: "#222e35"
+  }
+}
+
+// const lightTheme = {
+
+// }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <ThemeProvider> */}
+    <ThemeProvider theme={darkTheme }>
     <GlobalStyles/>
     <App />
-    {/* </ThemeProvider> */}
+    </ThemeProvider>
   </React.StrictMode>
 );
 

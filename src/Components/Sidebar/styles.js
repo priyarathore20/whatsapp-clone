@@ -46,7 +46,7 @@ export const SearchInput = styled.div`
 input{
   position: relative;
   width: 340px;
-  background-color: #222e35;
+  background-color: ${({darkTheme}) => darkTheme?.color.font};
   height: 32px;
   border-radius: 8px;
   padding: 10px;

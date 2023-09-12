@@ -7,34 +7,52 @@ import {
   LoginWindow,
 } from "./LandingPage.styled.js";
 import app from "../../firebaseConfig.js";
-import { getAuth, signInWithPhoneNumber } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [verificationCode, setVerificationCode] = useState("");
-  const [confirmationResult, setConfirmationResult] = useState(null);
+  const [fullName, setFullName] = useState("");
   const auth = getAuth(app);
+  const db = getFirestore(app);
+  const navigate = useNavigate();
 
-  const handleSendCode = async () => {
-    try {
-      const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber);
-      console.log(confirmationResult);
-      setConfirmationResult(confirmationResult);
-    } catch (error) {
-      console.error("Error sending verification code:", error);
-    }
+  const addingUserdata = (docId, dataToAdd) => {
+    const docRef = doc(db, "Profiles", docId);
+    setDoc(docRef, dataToAdd)
+      .then(() => {
+        console.log("Data added successfully with custom document ID:", docId);
+
+        navigate("/home");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const handleVerifyCode = async () => {
+  const handleSignupUser = async (e) => {
+    e.preventDefault();
     try {
-      const userCredential = await confirmationResult.confirm(verificationCode);
-      const user = userCredential.user;
-      console.log("Phone number authentication successful. User:", user);
+      const data = await createUserWithEmailAndPassword(
+        auth,
+        phoneNumber,
+        fullName
+      );
+      console.log("user created", data);
+      const documentID = data.user.uid;
+      const dataToAdd = {
+        name: fullName,
+        phone: phoneNumber,
+        avatarURL: "",
+        uid: data.user.uid,
+      };
+      addingUserdata(documentID, dataToAdd);
+      navigate("/home");
     } catch (error) {
-      console.error("Error verifying code:", error);
+      console.log(error);
     }
   };
-
   return (
     <LoginPage>
       <div className="login-navbar"></div>
@@ -48,18 +66,7 @@ const LandingPage = () => {
         </div>
         <LoginWindow>
           <div className="login-window-details">
-            <p className="number-title">Enter phone number</p>
-            <p className="number-para">
-              Select a country and enter your WhatsApp phone number.
-            </p>
-            <button className="number-btn">
-              <img
-                className="flag-img"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfIxIXllljcGXBwxXL9cSZuuDOQCaqtYBzzQ&usqp=CAU"
-                alt=""
-              />
-              <span className="flag-name">India</span>
-            </button>
+            <p className="number-title">Enter your details</p>
             <p className="number">
               +91{" "}
               <input
@@ -69,7 +76,17 @@ const LandingPage = () => {
                 value={phoneNumber}
               />
             </p>
-            <button onClick={handleSendCode} className="login-btn">
+            <input
+              type="text"
+              placeholder="Full name"
+              className="number"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+            />
+            <p className="number">
+              Select your avatar: <input type="file" className="number-input" />
+            </p>
+            <button onClick={handleSignupUser} className="login-btn">
               Next
             </button>
           </div>

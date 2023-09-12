@@ -5,22 +5,34 @@ export const Chatpage = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 1044px;
-  height: 100%;
-`;
+  width: 100vw;
+  border-bottom: 6px solid #00A884;
+`
 
 export const ChatpageImgWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 560px;
-  height: 189px;
+  height: 389px;
 
   img {
     width: 320px;
-    height: 100%;
+    height: 200px;
   }
-`;
+
+button{
+  width: 124px;
+  height: 36px;
+  background-color: #00A884;
+  color: ${({darkTheme}) => darkTheme?.color?.body};
+  padding: 10px 24px;
+  font-size: 14px;
+  border: none;
+  border-radius: 24px;
+  margin-top: 32px ;
+}
+`
 
 export const DownloadHead = styled.p`
   color: #e9edefe0;
