@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 const LandingPage = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
   const auth = getAuth(app);
   const db = getFirestore(app);
   const navigate = useNavigate();
@@ -36,14 +37,15 @@ const LandingPage = () => {
     try {
       const data = await createUserWithEmailAndPassword(
         auth,
-        phoneNumber,
-        fullName
+        email,
+        phoneNumber
       );
       console.log("user created", data);
       const documentID = data.user.uid;
       const dataToAdd = {
         name: fullName,
         phone: phoneNumber,
+        email: email,
         avatarURL: "",
         uid: data.user.uid,
       };
@@ -82,6 +84,13 @@ const LandingPage = () => {
               className="number"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Email"
+              className="number"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <p className="number">
               Select your avatar: <input type="file" className="number-input" />

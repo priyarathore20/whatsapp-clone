@@ -46,3 +46,9 @@ export const DownloadPara = styled.p`
   margin: 18px 0 0;
   text-align: center;
 `;
+
+export const Encryption = styled.div`
+display: none;
+width: 100%;
+height: 15px;
+`

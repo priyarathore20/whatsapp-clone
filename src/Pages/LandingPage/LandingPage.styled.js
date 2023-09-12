@@ -68,7 +68,7 @@ export const LoginWindow = styled.div`
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  height: 400px;
+  height: 550px;
 }
 
 .number-title {
