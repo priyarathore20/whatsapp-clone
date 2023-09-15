@@ -23,7 +23,7 @@ import {
 } from "./styles";
 import app from "../../firebaseConfig";
 
-const sendMessages = () => {
+const Messages = () => {
   const [message, setMessage] = useState("");
   const db = getFirestore(app);
   const auth = getAuth(app);
@@ -94,4 +94,4 @@ const sendMessages = () => {
   );
 };
 
-export default sendMessages;
+export default Messages;
