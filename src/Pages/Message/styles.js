@@ -29,7 +29,17 @@ width: 1044px;
 background-color: #111b21;
 `
 
-export const Textfield = styled.div`
+export const Messenger = styled.p`
+background-color: #005C4B;
+height: 100%;
+width: 100%;
+padding: 6px 7px 8px 9px;
+font-size: 14px;
+color: #E9EDEF;
+border-radius: 6px;
+`
+
+export const Textfield = styled.form`
 display: flex;
 height: 60px;
 width: 100%;
