@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./LandingPage.styled.js";
 import {
   LoginBox,
@@ -11,6 +11,7 @@ import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Context/AppContext.js";
 
 const LandingPage = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -21,6 +22,7 @@ const LandingPage = () => {
   const auth = getAuth(app);
   const db = getFirestore(app);
   const navigate = useNavigate();
+  // const { currentUser } = useContext(AuthContext);
 
   const addingUserdata = (docId, dataToAdd) => {
     const docRef = doc(db, "Profiles", docId);
@@ -66,6 +68,7 @@ const LandingPage = () => {
         uid: data.user.uid,
       };
       addingUserdata(documentID, dataToAdd);
+      currentUser(data.user);
       navigate("/home");
     } catch (error) {
       console.log(error);
