@@ -5,11 +5,12 @@ import { BrowserRouter , Routes, Route, Navigate } from "react-router-dom";
 import app from "./firebaseConfig";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { AuthContext } from "./Context/AppContext";
+import { Loader } from './App.styled';
 function App() {
   const auth = getAuth(app)
   const db = getFirestore(app)
   // const {updateUser, currentUser} = useContext(AuthContext)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   // useEffect(() => {
   //   auth.onAuthStateChanged(async (user) => {
@@ -40,9 +41,9 @@ function App() {
 
   if (loading) {
     return (
-      <div>
+      <Loader>
         <img src='image/loader.png' alt=''/>
-      </div>
+      </Loader>
     )
   }
 

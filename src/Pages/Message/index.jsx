@@ -24,7 +24,7 @@ import {
 import app from "../../firebaseConfig";
 
 const Messages = () => {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState();
   const db = getFirestore(app);
   const auth = getAuth(app);
 
