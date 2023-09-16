@@ -1,19 +1,23 @@
-import React from "react";
-import { MdHistory } from "react-icons/md";
-import { LuMessageSquarePlus } from "react-icons/lu";
-import { BsFilter, BsSearch, BsThreeDotsVertical } from "react-icons/bs";
-import { HiMiniUserGroup } from "react-icons/hi2";
-import ChatCard from "../ChatCard";
-import "./styles.js";
+import React from 'react';
+import { MdHistory } from 'react-icons/md';
+import { LuMessageSquarePlus } from 'react-icons/lu';
+import { BsFilter, BsSearch, BsThreeDotsVertical } from 'react-icons/bs';
+import { HiMiniUserGroup } from 'react-icons/hi2';
+import ChatCard from '../ChatCard';
+import './styles.js';
 import {
   Header,
   HeaderIcon,
   HeaderIcons,
   SearchInput,
+  SearchInputWrapper,
   SidebarWrapper,
-} from "./styles";
+} from './styles';
 
-const Sidebar = () => {
+const Sidebar = ({
+  conversations = [],
+  handleCurrentConversation = () => {},
+}) => {
   return (
     <SidebarWrapper>
       <Header>
@@ -24,35 +28,41 @@ const Sidebar = () => {
 
         <HeaderIcons>
           <HeaderIcon>
-            {" "}
+            {' '}
             <HiMiniUserGroup />
           </HeaderIcon>
           <HeaderIcon>
-            {" "}
+            {' '}
             <MdHistory />
           </HeaderIcon>
           <HeaderIcon>
-            {" "}
+            {' '}
             <LuMessageSquarePlus />
           </HeaderIcon>
           <HeaderIcon>
-            {" "}
+            {' '}
             <BsThreeDotsVertical />
           </HeaderIcon>
         </HeaderIcons>
       </Header>
-      <SearchInput>
-        <div>
+      <SearchInputWrapper>
+        <SearchInput>
           <span>
             <BsSearch />
           </span>
           <input type="search" placeholder="Search or start new chat" />
-        </div>
+        </SearchInput>
         <div>
           <BsFilter />
         </div>
-      </SearchInput>
-      <ChatCard />
+      </SearchInputWrapper>
+      {conversations?.map((item, index) => (
+        <ChatCard
+          key={index}
+          {...item}
+          handleCurrentConversation={handleCurrentConversation}
+        />
+      ))}
     </SidebarWrapper>
   );
 };

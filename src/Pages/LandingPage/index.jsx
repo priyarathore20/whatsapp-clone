@@ -51,24 +51,24 @@ const LandingPage = () => {
       );
       console.log("user created", data);
 
-      let avatarURL = "";
-      const avatarRef = ref(
-        storage,
-        `avatar/${data?.user?.uid}.${image.name.split(".").pop()}`
-      );
-      const snapshot = await uploadBytes(avatarRef, image);
-      avatarURL = snapshot?.metadata?.fullPath;
+      // let avatarURL = "";
+      // const avatarRef = ref(
+      //   storage,
+      //   `avatar/${data?.user?.uid}.${image.name.split(".").pop()}`
+      // );
+      // const snapshot = await uploadBytes(avatarRef, image);
+      // avatarURL = snapshot?.metadata?.fullPath;
 
       const documentID = data.user.uid;
       const dataToAdd = {
         name: fullName,
         phone: phoneNumber,
         email: email,
-        avatarURL: avatarURL,
+        // avatarURL: avatarURL,
         uid: data.user.uid,
       };
       addingUserdata(documentID, dataToAdd);
-      currentUser(data.user);
+      // currentUser(data.user);
       navigate("/home");
     } catch (error) {
       console.log(error);

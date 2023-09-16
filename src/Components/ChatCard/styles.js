@@ -1,15 +1,13 @@
-import styled from "styled-components/macro";
+import styled from 'styled-components/macro';
 
 export const ChatCardWrapper = styled.div`
   height: 72px;
   padding: 10px 0px;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
 `;
 export const ChatCardAvatar = styled.div`
-  height: 77px;
-  width: 73px;
   padding: 0px 15px 0px 13px;
 
   img {
@@ -24,27 +22,24 @@ export const Messages = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 310px;
+  flex: 1;
 `;
 export const ContactName = styled.p`
   color: #fff;
   font-weight: 500;
-  font-size: 17px;
-  height: 22px;
+  font-size: 16px;
 `;
 
 export const Message = styled.p`
   font-size: 14px;
-  height: 20px;
   color: #fff;
   margin-top: 4px;
 `;
 export const TimeStamp = styled.p`
-  height: 16px;
-  width: 43px;
   color: #00a884;
   font-size: 12px;
   margin-right: 8px;
   padding-top: 5px;
   vertical-align: middle;
+  white-space: nowrap;
 `;

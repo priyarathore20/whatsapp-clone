@@ -2,17 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import "./App.styled";
+import './App.styled';
 import { GlobalStyles } from './App.styled';
 import { ThemeProvider } from 'styled-components';
 import AuthContextProvider from './Context/AppContext';
 
 const darkTheme = {
-  color:{
-   body: "#111B21",
-   font: "#222e35"
-  }
-}
+  color: {
+    body: '#111B21',
+    font: '#222e35',
+    panelHeaderBackground: '#202c33',
+    panelHeaderBackgroundRgb: '32,44,51',
+  },
+};
 
 // const lightTheme = {
 
@@ -22,10 +24,10 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-    <ThemeProvider theme={darkTheme }>
-    <GlobalStyles/>
-    <App />
-    </ThemeProvider>
+      <ThemeProvider theme={darkTheme}>
+        <GlobalStyles />
+        <App />
+      </ThemeProvider>
     </AuthContextProvider>
   </React.StrictMode>
 );
