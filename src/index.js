@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import "./App.styled";
 import { GlobalStyles } from './App.styled';
 import { ThemeProvider } from 'styled-components';
+import AuthContextProvider from './Context/AppContext';
 
 const darkTheme = {
   color:{
@@ -20,10 +21,12 @@ const darkTheme = {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <AuthContextProvider>
     <ThemeProvider theme={darkTheme }>
     <GlobalStyles/>
     <App />
     </ThemeProvider>
+    </AuthContextProvider>
   </React.StrictMode>
 );
 

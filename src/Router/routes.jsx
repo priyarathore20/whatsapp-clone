@@ -4,7 +4,7 @@ import LandingPage from "../Pages/LandingPage";
 export const routes = [
   {
     name: "landing page",
-    path: "*",
+    path: "/login",
     component: LandingPage,
     isProtected: false,
   },

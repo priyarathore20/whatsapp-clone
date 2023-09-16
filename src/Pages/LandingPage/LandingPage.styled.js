@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 export const LoginPage = styled.div`
   background-color: #111b21;

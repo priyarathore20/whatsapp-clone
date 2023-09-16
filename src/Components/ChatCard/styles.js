@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 export const ChatCardWrapper = styled.div`
   height: 72px;
