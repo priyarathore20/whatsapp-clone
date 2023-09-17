@@ -22,7 +22,7 @@ const LandingPage = () => {
   const auth = getAuth(app);
   const db = getFirestore(app);
   const navigate = useNavigate();
-  // const { currentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
 
   const addingUserdata = (docId, dataToAdd) => {
     const docRef = doc(db, "Profiles", docId);
@@ -68,8 +68,8 @@ const LandingPage = () => {
         uid: data.user.uid,
       };
       addingUserdata(documentID, dataToAdd);
-      // currentUser(data.user);
-      navigate("/home");
+      currentUser(data.user);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }

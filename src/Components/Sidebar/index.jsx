@@ -1,10 +1,10 @@
-import React from 'react';
-import { MdHistory } from 'react-icons/md';
-import { LuMessageSquarePlus } from 'react-icons/lu';
-import { BsFilter, BsSearch, BsThreeDotsVertical } from 'react-icons/bs';
-import { HiMiniUserGroup } from 'react-icons/hi2';
-import ChatCard from '../ChatCard';
-import './styles.js';
+import React from "react";
+import { MdHistory } from "react-icons/md";
+import { LuMessageSquarePlus } from "react-icons/lu";
+import { BsFilter, BsSearch, BsThreeDotsVertical } from "react-icons/bs";
+import { HiMiniUserGroup } from "react-icons/hi2";
+import ChatCard from "../ChatCard";
+import "./styles.js";
 import {
   Header,
   HeaderIcon,
@@ -12,12 +12,27 @@ import {
   SearchInput,
   SearchInputWrapper,
   SidebarWrapper,
-} from './styles';
+} from "./styles";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import app from "../../firebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({
   conversations = [],
   handleCurrentConversation = () => {},
 }) => {
+  const auth = getAuth(app);
+  const navigate = useNavigate();
+
+  const logoutUser = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("signed out");
+        navigate("/login");
+      })
+      .catch(() => console.log("error"));
+  };
+
   return (
     <SidebarWrapper>
       <Header>
@@ -28,20 +43,20 @@ const Sidebar = ({
 
         <HeaderIcons>
           <HeaderIcon>
-            {' '}
+            {" "}
             <HiMiniUserGroup />
           </HeaderIcon>
           <HeaderIcon>
-            {' '}
+            {" "}
             <MdHistory />
           </HeaderIcon>
           <HeaderIcon>
-            {' '}
+            {" "}
             <LuMessageSquarePlus />
           </HeaderIcon>
           <HeaderIcon>
-            {' '}
-            <BsThreeDotsVertical />
+            {" "}
+            <BsThreeDotsVertical onClick={logoutUser} />
           </HeaderIcon>
         </HeaderIcons>
       </Header>
