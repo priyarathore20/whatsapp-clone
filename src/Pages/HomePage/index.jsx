@@ -22,8 +22,8 @@ const HomePage = () => {
   const [conversations, setConversations] = useState([]);
   const [currentConversation, setCurrentConversation] = useState(null);
 
-  const handleCurrentConversation = (userId) => {
-    setCurrentConversation(userId);
+  const handleCurrentConversation = (userObj) => {
+    setCurrentConversation(userObj);
   };
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const HomePage = () => {
           const collectionRef = collection(db, "chats");
           const q = query(
             collectionRef,
-            where("participants", "array-contains", userId)
+            where("members", "array-contains", userId)
           );
           // Execute the query and get the result
           const querySnapshot = await getDocs(q);

@@ -14,15 +14,18 @@ const ChatCard = ({
   lastMessage = '',
   lastMessageUserName = '',
   participants = [],
+  messagesRef = '',
   handleCurrentConversation = () => {},
 }) => {
+  console.log(messagesRef);
   const { currentUser } = useContext(AuthContext);
+  const userObj = participants.filter(
+    (item) => item?.userId !== currentUser?.uid
+  )[0];
+  const chatPersonName = userObj?.name;
 
   const setCurrentUser = () => {
-    
-    const userId = participants.filter((item) => item !== currentUser?.uid)[0];
-
-    handleCurrentConversation(userId);
+    handleCurrentConversation({ ...userObj, messagesRef });
   };
 
   return (
@@ -34,7 +37,7 @@ const ChatCard = ({
         />
       </ChatCardAvatar>
       <Messages>
-        <ContactName>{lastMessageUserName}</ContactName>
+        <ContactName>{chatPersonName}</ContactName>
         <Message>{lastMessage}</Message>
       </Messages>
 
