@@ -1,5 +1,5 @@
-import React from "react";
-import "./styles.js";
+import React, { useContext } from 'react';
+import './styles.js';
 import {
   ChatCardAvatar,
   ChatCardWrapper,
@@ -7,11 +7,26 @@ import {
   Message,
   Messages,
   TimeStamp,
-} from "./styles.js";
+} from './styles.js';
+import { AuthContext } from '../../Context/AppContext.js';
 
-const ChatCard = () => {
+const ChatCard = ({
+  lastMessage = '',
+  lastMessageUserName = '',
+  participants = [],
+  handleCurrentConversation = () => {},
+}) => {
+  const { currentUser } = useContext(AuthContext);
+
+  const setCurrentUser = () => {
+    
+    const userId = participants.filter((item) => item !== currentUser?.uid)[0];
+
+    handleCurrentConversation(userId);
+  };
+
   return (
-    <ChatCardWrapper>
+    <ChatCardWrapper onClick={setCurrentUser}>
       <ChatCardAvatar>
         <img
           src="https://img.freepik.com/premium-vector/portrait-young-man-with-beard-hair-style-male-avatar-vector-illustration_266660-423.jpg?w=2000"
@@ -19,12 +34,11 @@ const ChatCard = () => {
         />
       </ChatCardAvatar>
       <Messages>
-        <ContactName>Mr. xyz</ContactName>
-        <Message>~ Hello</Message>
+        <ContactName>{lastMessageUserName}</ContactName>
+        <Message>{lastMessage}</Message>
       </Messages>
-      <div>
-        <TimeStamp>5:30 Pm</TimeStamp>
-      </div>
+
+      <TimeStamp>5:30 Pm</TimeStamp>
     </ChatCardWrapper>
   );
 };

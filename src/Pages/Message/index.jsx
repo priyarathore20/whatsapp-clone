@@ -1,81 +1,88 @@
-import React, { useEffect, useState } from "react";
-import { Header } from "../../Components/Sidebar/styles";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import React, { useContext, useEffect, useState } from 'react';
+import { Header } from '../../Components/Sidebar/styles';
+import { BsThreeDotsVertical } from 'react-icons/bs';
 import {
   addDoc,
   collection,
+  getDocs,
   getFirestore,
   limit,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
-} from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import { MdSend } from "react-icons/md";
+  where,
+} from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { MdSend } from 'react-icons/md';
 import {
   Avatar,
   Chat,
+  HeaderName,
   MessageWrapper,
   Messenger,
   Textfield,
   Username,
-} from "./styles";
-import app from "../../firebaseConfig";
+} from './styles';
+import app from '../../firebaseConfig';
+import { AuthContext } from '../../Context/AppContext';
 
-const Messages = () => {
+const Messages = ({ currentConversation }) => {
   const [message, setMessage] = useState();
   const db = getFirestore(app);
   const auth = getAuth(app);
+  const { currentUser } = useContext(AuthContext);
 
   const sendMessage = async (event) => {
     event.preventDefault();
-    if (message.trim() === "") {
-      alert("Enter valid message");
+    if (message.trim() === '') {
+      alert('Enter valid message');
       return;
     }
     const { uid, displayName, photoURL } = auth.currentUser;
-    await addDoc(collection(db, "messages"), {
+    await addDoc(collection(db, 'messages'), {
       text: message,
       name: displayName,
       avatar: photoURL,
       createdAt: serverTimestamp(),
       uid,
     });
-    setMessage("");
+    setMessage('');
   };
 
-  useEffect(() => {
-    const q = query(
-      collection(db, "messages"),
-      orderBy("createdAt", "desc"),
-      limit(50)
-    );
-    const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
-      const fetchedMessages = [];
-      QuerySnapshot.forEach((doc) => {
-        fetchedMessages.push({ ...doc.data(), id: doc.id });
-      });
-      const sortedMessages = fetchedMessages.sort(
-        (a, b) => a.createdAt - b.createdAt
-      );
-      setMessage(sortedMessages);
-    });
-    return () => unsubscribe;
-  }, []);
+  // useEffect(() => {
+  //   const q = query(
+  //     collection(db, 'messages'),
+  //     orderBy('createdAt', 'desc'),
+  //     limit(50)
+  //   );
+  //   const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+  //     const fetchedMessages = [];
+  //     QuerySnapshot.forEach((doc) => {
+  //       fetchedMessages.push({ ...doc.data(), id: doc.id });
+  //     });
+  //     const sortedMessages = fetchedMessages.sort(
+  //       (a, b) => a.createdAt - b.createdAt
+  //     );
+  //     setMessage(sortedMessages);
+  //   })
+  //   return () => unsubscribe;
+  // }, []);
+
+  useEffect(() => {}, []);
 
   return (
     <MessageWrapper>
       <Header>
-        <div>
+        <HeaderName>
           <Avatar>
-            <img src="image/avatar.png" alt="" />
+            <img src="image/avatar.jpg" alt="" />
           </Avatar>
           <div>
-            <Username></Username>
+            <Username>Aman</Username>
           </div>
-          <BsThreeDotsVertical />
-        </div>
+        </HeaderName>
+        <BsThreeDotsVertical />
       </Header>
       <Chat>
         {message?.map((message) => (

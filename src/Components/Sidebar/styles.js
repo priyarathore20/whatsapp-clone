@@ -1,69 +1,87 @@
-import styled from "styled-components/macro";
+import styled from 'styled-components/macro';
 
 export const SidebarWrapper = styled.div`
-  width: 447px;
-  height: 739px;
+  height: 100%;
+  width: 30%;
   border-right: 1px solid #ccc;
-  `
+`;
 
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   padding: 10px 16px;
+  background-color: ${({ theme }) => theme.color.panelHeaderBackground};
 
-  img{
+  img {
     height: 40px;
-  width: 40px;
-  border-radius: 50%;
+    width: 40px;
+    border-radius: 50%;
   }
-`
+`;
 
 export const HeaderIcons = styled.div`
   display: flex;
   justify-content: right;
-  gap: 14px;
+  gap: 16px;
   align-items: center;
   width: 100%;
   height: 100%;
-`
+`;
 
 export const HeaderIcon = styled.div`
   width: 24px;
   height: 24px;
   color: #aebac1;
 
-  svg{
+  svg {
     height: 100%;
     width: 100%;
   }
-`
+`;
 
-export const SearchInput = styled.div`
- display: flex;
+export const SearchInputWrapper = styled.div`
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #111b21;
+
   height: 49px;
   width: 100%;
   padding: 0 8px;
 
-input{
-  position: relative;
-  width: 340px;
-  background-color: ${({darkTheme}) => darkTheme?.color.font};
-  height: 32px;
+  svg {
+    color: #aebac1;
+    width: 20px;
+    vertical-align: middle;
+    height: 20px;
+    margin-right: 14px;
+  }
+`;
+export const SearchInput = styled.div`
+  background-color: ${({ theme }) => theme.color.panelHeaderBackground};
   border-radius: 8px;
-  padding: 10px;
-  outline: none;
-  border: none;
-}
+  padding-left: 12px;
+  display: flex;
+  align-items: center;
+  width: 100%;
 
-svg{
-  color: #aebac1;
-  width: 20px;
-  vertical-align: middle;
-  height: 20px;
-  margin-right: 14px;
-}
-`
+  svg {
+    color: #aebac1;
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+    margin-right: 14px;
+  }
+
+  input {
+    color: white;
+    position: relative;
+    width: 100%;
+    background-color: transparent;
+    height: 32px;
+    border-radius: 8px;
+    padding: 10px;
+    outline: none;
+    border: none;
+  }
+`;
