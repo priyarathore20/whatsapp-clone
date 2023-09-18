@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MdHistory } from "react-icons/md";
 import { LuMessageSquarePlus } from "react-icons/lu";
 import { BsFilter, BsSearch, BsThreeDotsVertical } from "react-icons/bs";
@@ -23,14 +23,24 @@ const Sidebar = ({
 }) => {
   const auth = getAuth(app);
   const navigate = useNavigate();
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
   const logoutUser = () => {
     signOut(auth)
       .then(() => {
         console.log("signed out");
         navigate("/login");
+        setShowLogoutDialog(false);
       })
       .catch(() => console.log("error"));
+  };
+
+  const handleLogoutClick = () => {
+    setShowLogoutDialog(true);
+  };
+
+  const handleLogoutCancel = () => {
+    setShowLogoutDialog(false);
   };
 
   return (
@@ -56,7 +66,18 @@ const Sidebar = ({
           </HeaderIcon>
           <HeaderIcon>
             {" "}
-            <BsThreeDotsVertical onClick={logoutUser} />
+            <BsThreeDotsVertical onClick={handleLogoutClick} />
+            {showLogoutDialog && (
+              <div className="logout-dialog">
+                <p className="logout-para">Are you sure you want to logout?</p>
+                <button className="logout-btn" onClick={handleLogoutCancel}>
+                  Cancel
+                </button>
+                <button className="logout-btn" onClick={logoutUser}>
+                  Logout
+                </button>
+              </div>
+            )}
           </HeaderIcon>
         </HeaderIcons>
       </Header>

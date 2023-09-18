@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro';
+import styled from "styled-components/macro";
 
 export const SidebarWrapper = styled.div`
   height: 100%;
@@ -37,6 +37,31 @@ export const HeaderIcon = styled.div`
   svg {
     height: 100%;
     width: 100%;
+  }
+
+  .logout-dialog {
+    height: max-content;
+    width: max-content;
+    padding: 10px;
+    background-color: #202c33;
+    border: 0.5px solid #008069;
+  }
+
+  .logout-para {
+    font-size: 14px;
+  }
+
+  .logout-btn {
+    height: 35px;
+    padding: 5px;
+    width: max-content;
+    margin: 8px 5px 0px 0px;
+    color: #111b21;
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    vertical-align: middle;
   }
 `;
 
