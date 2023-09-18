@@ -51,6 +51,7 @@ export const LoginBox = styled.div`
 export const LoginWindow = styled.div`
   background-color: #fff;
   height: 600px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -64,11 +65,12 @@ export const LoginWindow = styled.div`
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
-    height: 550px;
+    height: 100%;
   }
 
   .number-title {
     font-size: 28px;
+    margin-bottom: 10px;
     color: #415258;
   }
 
@@ -126,6 +128,11 @@ export const LoginWindow = styled.div`
     border: none;
     border-radius: 3px;
     margin-bottom: 5px;
+  }
+
+  .login-link{
+    cursor: pointer;
+    color: #008069;
   }
 `;
 

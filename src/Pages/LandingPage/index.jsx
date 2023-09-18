@@ -21,6 +21,7 @@ const LandingPage = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
+  const [isNewUser, setIsNewUser] = useState(false);
   const [image, setImage] = useState(null);
   const storage = getStorage(app);
   const auth = getAuth(app);
@@ -84,7 +85,6 @@ const LandingPage = () => {
     try {
       const data = await signInWithEmailAndPassword(auth, email, phoneNumber);
       console.log("user created", data);
-
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -101,58 +101,97 @@ const LandingPage = () => {
           />
           <header className="logo-title">whatsapp web</header>
         </div>
-        <LoginWindow>
-          <div className="login-window-details">
-            <p className="number-title">Enter your details</p>
-            <p className="number">
-              +91{" "}
+        {isNewUser ? (
+          <LoginWindow>
+            <div className="login-window-details">
+              <p className="number-title">Enter your details</p>
+              <p className="number">
+                +91{" "}
+                <input
+                  className="number-input"
+                  type="text"
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  value={phoneNumber}
+                />
+              </p>
               <input
-                className="number-input"
                 type="text"
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                value={phoneNumber}
+                placeholder="Email"
+                className="number"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-            </p>
-            <input
-              type="text"
-              placeholder="Full name"
-              className="number"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Email"
-              className="number"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <p className="number">
-              Select your avatar:{" "}
+              <button onClick={handleLoginUser} className="login-btn">
+                Next
+              </button>
+              <p onClick={() => setIsNewUser(true)} className="login-link">
+                New user? Get started
+              </p>
+            </div>
+            <LoginTutorial>
+              <p className="login-tutorial-heading">Tutorial</p>
+              <a
+                className="tutorial-link"
+                href="https://faq.whatsapp.com/1317564962315842/?cms_platform=web&lang=en"
+              >
+                Need help to get started?
+              </a>
+            </LoginTutorial>
+          </LoginWindow>
+        ) : (
+          <LoginWindow>
+            <div className="login-window-details">
+              <p className="number-title">Enter your details</p>
+              <p className="number">
+                +91{" "}
+                <input
+                  className="number-input"
+                  type="text"
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  value={phoneNumber}
+                />
+              </p>
               <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="number-input"
+                type="text"
+                placeholder="Full name"
+                className="number"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
               />
-            </p>
-            <button onClick={handleSignupUser} className="login-btn">
-              Next
-            </button>
-            <button onClick={handleLoginUser} className="login-btn">
-              Login
-            </button>
-          </div>
-          <LoginTutorial>
-            <p className="login-tutorial-heading">Tutorial</p>
-            <a
-              className="tutorial-link"
-              href="https://faq.whatsapp.com/1317564962315842/?cms_platform=web&lang=en"
-            >
-              Need help to get started?
-            </a>
-          </LoginTutorial>
-        </LoginWindow>
+              <input
+                type="text"
+                placeholder="Email"
+                className="number"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <p className="number">
+                Select your avatar:{" "}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="number-input"
+                />
+              </p>
+              <button onClick={handleSignupUser} className="login-btn">
+                Next
+              </button>
+              <p onClick={() => setIsNewUser(false)} className="login-link">
+                Already a user? Signin
+              </p>
+            </div>
+            <LoginTutorial>
+              <p className="login-tutorial-heading">Tutorial</p>
+              <a
+                className="tutorial-link"
+                href="https://faq.whatsapp.com/1317564962315842/?cms_platform=web&lang=en"
+              >
+                Need help to get started?
+              </a>
+            </LoginTutorial>
+          </LoginWindow>
+        )}
       </LoginBox>
     </LoginPage>
   );
