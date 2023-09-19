@@ -41,7 +41,7 @@ export const Chat = styled.div`
 
 export const ChatItem = styled.div`
   display: flex;
-  margin: 20px 0;
+  margin: 20px 10px;
   justify-content: ${({ isSent }) => (isSent ? 'flex-end' : 'flex-start')};
 
   > p {
@@ -61,18 +61,28 @@ export const Form = styled.form`
   display: flex;
   height: 60px;
   width: 100%;
-  gap: 20px;
+  gap: 10px;
+  margin-bottom: 10px;
 
   input {
     height: 50px;
     width: 100%;
     padding: 9px 12px;
     background-color: #2a3942;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    color: white;
+    margin: 10px 0px 10px 10px;
   }
 
   svg {
-    height: 50px;
-    width: 50px;
-    color: #fff;
+    height: 45px;
+    width: 45px;
+    color: #008069;
+    margin-right: 10px;
+    margin-top: 10px;
+    cursor: pointer;
   }
 `;

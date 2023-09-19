@@ -1,16 +1,18 @@
-import {routes} from './Router/routes'
+import { routes } from "./Router/routes";
 import { getAuth } from "firebase/auth";
 import React, { useContext, useEffect, useState } from "react";
-import { BrowserRouter , Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import app from "./firebaseConfig";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { AuthContext } from "./Context/AppContext";
-import { Loader } from './App.styled';
+import { Loader } from "./App.styled";
+import HomePage from "./Pages/HomePage";
+import LandingPage from "./Pages/LandingPage";
 function App() {
-  const auth = getAuth(app)
-  const db = getFirestore(app)
-  const {updateUser, currentUser} = useContext(AuthContext)
-  const [loading, setLoading] = useState(true)
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const { updateUser, currentUser } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
@@ -42,35 +44,12 @@ function App() {
   if (loading) {
     return (
       <Loader>
-        <img src='image/loader.png' alt=''/>
+        <img src="image/loader.png" alt="" />
       </Loader>
-    )
+    );
   }
 
-  return (
-    <BrowserRouter>
-    <Routes>
-      {routes.map((item) => {
-        const { name, component: Component, isProtected, path } = item;
-        const isAuthenticated = currentUser != null;
-
-        return (
-          <Route
-            key={name}
-            path={path}
-            element={
-              !isProtected || isAuthenticated ? (
-                <Component />
-              ) : (
-                <Navigate to="/" replace />
-              )
-            }
-          />
-        );
-      })}
-    </Routes>
-  </BrowserRouter>
-  );
+  return <>{currentUser ? <HomePage /> : <LandingPage />}</>;
 }
 
 export default App;

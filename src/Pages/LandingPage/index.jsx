@@ -14,7 +14,6 @@ import {
 } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/AppContext.js";
 
 const LandingPage = () => {
@@ -26,7 +25,6 @@ const LandingPage = () => {
   const storage = getStorage(app);
   const auth = getAuth(app);
   const db = getFirestore(app);
-  const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
 
   const addingUserdata = (docId, dataToAdd) => {
@@ -34,8 +32,6 @@ const LandingPage = () => {
     setDoc(docRef, dataToAdd)
       .then(() => {
         console.log("Data added successfully with custom document ID:", docId);
-
-        navigate("/home");
       })
       .catch((error) => {
         console.log(error);
@@ -74,7 +70,6 @@ const LandingPage = () => {
       };
       addingUserdata(documentID, dataToAdd);
       currentUser(data.user);
-      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -85,7 +80,6 @@ const LandingPage = () => {
     try {
       const data = await signInWithEmailAndPassword(auth, email, phoneNumber);
       console.log("user created", data);
-      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -101,7 +95,7 @@ const LandingPage = () => {
           />
           <header className="logo-title">whatsapp web</header>
         </div>
-        {isNewUser ? (
+        {!isNewUser ? (
           <LoginWindow>
             <div className="login-window-details">
               <p className="number-title">Enter your details</p>

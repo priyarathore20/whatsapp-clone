@@ -15,21 +15,18 @@ import {
 } from "./styles";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import app from "../../firebaseConfig";
-import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({
   conversations = [],
   handleCurrentConversation = () => {},
 }) => {
   const auth = getAuth(app);
-  const navigate = useNavigate();
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
   const logoutUser = () => {
     signOut(auth)
       .then(() => {
         console.log("signed out");
-        navigate("/login");
         setShowLogoutDialog(false);
       })
       .catch(() => console.log("error"));

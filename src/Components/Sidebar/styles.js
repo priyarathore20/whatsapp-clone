@@ -45,6 +45,8 @@ export const HeaderIcon = styled.div`
     padding: 10px;
     background-color: #202c33;
     border: 0.5px solid #008069;
+    position: relative;
+    z-index: 1;
   }
 
   .logout-para {

@@ -1,15 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Header } from '../../Components/Sidebar/styles';
-import { BsThreeDotsVertical } from 'react-icons/bs';
+import React, { useContext, useEffect, useState } from "react";
+import { Header } from "../../Components/Sidebar/styles";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import {
   arrayUnion,
   doc,
   getDoc,
   getFirestore,
   setDoc,
-} from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
-import { MdSend } from 'react-icons/md';
+} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { MdSend } from "react-icons/md";
 import {
   Avatar,
   Chat,
@@ -18,12 +18,12 @@ import {
   HeaderName,
   MessageWrapper,
   Username,
-} from './styles';
-import app from '../../firebaseConfig';
-import { AuthContext } from '../../Context/AppContext';
+} from "./styles";
+import app from "../../firebaseConfig";
+import { AuthContext } from "../../Context/AppContext";
 
 const Messages = ({ currentConversation }) => {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [chats, setChats] = useState([]);
 
   const db = getFirestore(app);
@@ -33,8 +33,8 @@ const Messages = ({ currentConversation }) => {
 
   const sendMessage = async (event) => {
     event.preventDefault();
-    if (message.trim() === '') {
-      alert('Enter valid message');
+    if (message.trim() === "") {
+      alert("Enter valid message");
       return;
     }
     const { uid } = currentUser;
@@ -42,7 +42,7 @@ const Messages = ({ currentConversation }) => {
     const timestamp = new Date();
 
     try {
-      const messagesCollection = doc(db, 'messages', messagesref);
+      const messagesCollection = doc(db, "messages", messagesref);
       await setDoc(
         messagesCollection,
         {
@@ -54,9 +54,9 @@ const Messages = ({ currentConversation }) => {
         },
         { merge: true }
       );
-      console.log('message sent');
+      console.log("message sent");
 
-      setMessage('');
+      setMessage("");
     } catch (error) {
       console.log(error);
     }
@@ -88,13 +88,13 @@ const Messages = ({ currentConversation }) => {
       console.log(messagesRef);
       if (messagesRef) {
         try {
-          const documentRef = doc(db, 'messages', 'E97mi4gDR3tUr1VcXM3v');
+          const documentRef = doc(db, "messages", "E97mi4gDR3tUr1VcXM3v");
           const documentSnapshot = await getDoc(documentRef);
 
           if (documentSnapshot.exists()) {
             setChats(documentSnapshot.data()?.chats || []);
           } else {
-            console.log('No doc');
+            console.log("No doc");
           }
         } catch (error) {
           console.log(error);
@@ -117,7 +117,7 @@ const Messages = ({ currentConversation }) => {
             <Username>{currentConversation?.name}</Username>
           </div>
         </HeaderName>
-        <BsThreeDotsVertical />
+        <BsThreeDotsVertical style={{ color: "white", cursor: "pointer" }} />
       </Header>
       <Chat>
         {chats?.map((message, index) => (
