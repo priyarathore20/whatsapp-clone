@@ -1,45 +1,39 @@
-import React, { useContext, useState } from "react";
-import "./LandingPage.styled.js";
+import React, { useContext, useState } from 'react';
+import './LandingPage.styled.js';
 import {
   LoginBox,
   LoginPage,
   LoginTutorial,
   LoginWindow,
-} from "./LandingPage.styled.js";
-import app from "../../firebaseConfig.js";
+} from './LandingPage.styled.js';
+import app from '../../firebaseConfig.js';
 import {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
-} from "firebase/auth";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { AuthContext } from "../../Context/AppContext.js";
+} from 'firebase/auth';
+import { doc, getFirestore, setDoc } from 'firebase/firestore';
+import { AuthContext } from '../../Context/AppContext.js';
 
 const LandingPage = () => {
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
   const [isNewUser, setIsNewUser] = useState(false);
-  const [image, setImage] = useState(null);
-  const storage = getStorage(app);
+
   const auth = getAuth(app);
   const db = getFirestore(app);
   const { currentUser } = useContext(AuthContext);
 
   const addingUserdata = (docId, dataToAdd) => {
-    const docRef = doc(db, "Profiles", docId);
+    const docRef = doc(db, 'Profiles', docId);
     setDoc(docRef, dataToAdd)
       .then(() => {
-        console.log("Data added successfully with custom document ID:", docId);
+        console.log('Data added successfully with custom document ID:', docId);
       })
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  const handleImageChange = (e) => {
-    setImage(e.target?.files[0]);
   };
 
   const handleSignupUser = async (e) => {
@@ -50,15 +44,7 @@ const LandingPage = () => {
         email,
         phoneNumber
       );
-      console.log("user created", data);
-
-      // let avatarURL = "";
-      // const avatarRef = ref(
-      //   storage,
-      //   `avatar/${data?.user?.uid}.${image.name.split(".").pop()}`
-      // );
-      // const snapshot = await uploadBytes(avatarRef, image);
-      // avatarURL = snapshot?.metadata?.fullPath;
+      console.log('user created', data);
 
       const documentID = data.user.uid;
       const dataToAdd = {
@@ -79,11 +65,12 @@ const LandingPage = () => {
     event.preventDefault();
     try {
       const data = await signInWithEmailAndPassword(auth, email, phoneNumber);
-      console.log("user created", data);
+      console.log('user created', data);
     } catch (error) {
       console.log(error);
     }
   };
+  
   return (
     <LoginPage>
       <div className="login-navbar"></div>
@@ -100,7 +87,7 @@ const LandingPage = () => {
             <div className="login-window-details">
               <p className="number-title">Enter your details</p>
               <p className="number">
-                +91{" "}
+                +91{' '}
                 <input
                   className="number-input"
                   type="text"
@@ -137,7 +124,7 @@ const LandingPage = () => {
             <div className="login-window-details">
               <p className="number-title">Enter your details</p>
               <p className="number">
-                +91{" "}
+                +91{' '}
                 <input
                   className="number-input"
                   type="text"
@@ -159,15 +146,7 @@ const LandingPage = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <p className="number">
-                Select your avatar:{" "}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="number-input"
-                />
-              </p>
+
               <button onClick={handleSignupUser} className="login-btn">
                 Next
               </button>

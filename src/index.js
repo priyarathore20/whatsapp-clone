@@ -6,6 +6,7 @@ import './App.styled';
 import { GlobalStyles } from './App.styled';
 import { ThemeProvider } from 'styled-components';
 import AuthContextProvider from './Context/AppContext';
+import { BrowserRouter } from 'react-router-dom';
 
 const darkTheme = {
   color: {
@@ -26,7 +27,9 @@ root.render(
     <AuthContextProvider>
       <ThemeProvider theme={darkTheme}>
         <GlobalStyles />
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </ThemeProvider>
     </AuthContextProvider>
   </React.StrictMode>
