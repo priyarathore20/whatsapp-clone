@@ -35,7 +35,7 @@ const Messages = ({ currentConversation }) => {
   const sendMessage = async (event) => {
     event.preventDefault();
     if (message.trim() === "") {
-      alert("Enter valid message");
+      enqueueSnackbar("Enter valid message", { variant: "info" });
       return;
     }
     const { uid } = currentUser;

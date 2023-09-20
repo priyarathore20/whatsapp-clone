@@ -98,6 +98,7 @@ export const LoginWindow = styled.div`
     height: 51px;
     border-radius: 4px;
     display: flex;
+    cursor: pointer;
     justify-content: flex-start;
     align-items: center;
   }
@@ -126,6 +127,7 @@ export const LoginWindow = styled.div`
     color: #fff;
     font-size: 14px;
     border: none;
+    cursor: pointer;
     border-radius: 3px;
     margin-bottom: 5px;
   }

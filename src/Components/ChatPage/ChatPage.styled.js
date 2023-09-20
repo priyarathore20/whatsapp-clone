@@ -29,6 +29,7 @@ button{
   padding: 10px 24px;
   font-size: 14px;
   border: none;
+  cursor: pointer;
   border-radius: 24px;
   margin-top: 32px ;
 }
