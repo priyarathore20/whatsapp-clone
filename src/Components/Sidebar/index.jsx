@@ -15,6 +15,7 @@ import {
 } from "./styles";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import app from "../../firebaseConfig";
+import { useSnackbar } from "notistack";
 
 const Sidebar = ({
   conversations = [],
@@ -22,14 +23,19 @@ const Sidebar = ({
 }) => {
   const auth = getAuth(app);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const logoutUser = () => {
     signOut(auth)
       .then(() => {
         console.log("signed out");
         setShowLogoutDialog(false);
+        enqueueSnackbar("Logged out successfully", { variant: "success" });
       })
       .catch(() => console.log("error"));
+    enqueueSnackbar("Error logging out. please try again", {
+      variant: "error",
+    });
   };
 
   const handleLogoutClick = () => {

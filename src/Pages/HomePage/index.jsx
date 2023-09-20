@@ -13,12 +13,13 @@ import {
 import { getAuth } from "firebase/auth";
 import { AuthContext } from "../../Context/AppContext";
 import app from "../../firebaseConfig";
+import { useSnackbar } from "notistack";
 
 const HomePage = () => {
   const db = getFirestore(app);
   const auth = getAuth(app);
   const { currentUser } = useContext(AuthContext);
-
+  const { enqueueSnackbar } = useSnackbar();
   const [conversations, setConversations] = useState([]);
   const [currentConversation, setCurrentConversation] = useState(null);
 
@@ -46,6 +47,7 @@ const HomePage = () => {
           setConversations(users);
         } catch (error) {
           console.log(error);
+          enqueueSnackbar(error?.message, { variant: "error" });
           return false;
         }
       }

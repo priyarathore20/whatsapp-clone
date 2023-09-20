@@ -21,11 +21,12 @@ import {
 } from "./styles";
 import app from "../../firebaseConfig";
 import { AuthContext } from "../../Context/AppContext";
+import { useSnackbar } from "notistack";
 
 const Messages = ({ currentConversation }) => {
   const [message, setMessage] = useState("");
   const [chats, setChats] = useState([]);
-
+  const { enqueueSnackbar } = useSnackbar();
   const db = getFirestore(app);
   const auth = getAuth(app);
   const { currentUser } = useContext(AuthContext);
@@ -59,6 +60,7 @@ const Messages = ({ currentConversation }) => {
       setMessage("");
     } catch (error) {
       console.log(error);
+      enqueueSnackbar(error?.message, { variant: "error" });
     }
   };
 

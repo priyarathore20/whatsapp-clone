@@ -6,6 +6,7 @@ import './App.styled';
 import { GlobalStyles } from './App.styled';
 import { ThemeProvider } from 'styled-components';
 import AuthContextProvider from './Context/AppContext';
+import { SnackbarProvider } from 'notistack';
 
 const darkTheme = {
   color: {
@@ -25,8 +26,10 @@ root.render(
   <React.StrictMode>
     <AuthContextProvider>
       <ThemeProvider theme={darkTheme}>
+      <SnackbarProvider maxSnack={3} autoHideDuration={3000}>
         <GlobalStyles />
         <App />
+        </SnackbarProvider>
       </ThemeProvider>
     </AuthContextProvider>
   </React.StrictMode>

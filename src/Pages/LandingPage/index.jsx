@@ -15,6 +15,7 @@ import {
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { AuthContext } from "../../Context/AppContext.js";
+import { useSnackbar } from "notistack";
 
 const LandingPage = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -26,14 +27,17 @@ const LandingPage = () => {
   const auth = getAuth(app);
   const db = getFirestore(app);
   const { currentUser } = useContext(AuthContext);
+  const { enqueueSnackbar } = useSnackbar();
 
   const addingUserdata = (docId, dataToAdd) => {
     const docRef = doc(db, "Profiles", docId);
     setDoc(docRef, dataToAdd)
       .then(() => {
+        enqueueSnackbar("Signed in successfully", { variant: "success" });
         console.log("Data added successfully with custom document ID:", docId);
       })
       .catch((error) => {
+        enqueueSnackbar(error?.message, { variant: "error" });
         console.log(error);
       });
   };
@@ -72,6 +76,7 @@ const LandingPage = () => {
       currentUser(data.user);
     } catch (error) {
       console.log(error);
+      enqueueSnackbar(error?.message, { variant: "error" });
     }
   };
 
@@ -81,6 +86,7 @@ const LandingPage = () => {
       const data = await signInWithEmailAndPassword(auth, email, phoneNumber);
       console.log("user created", data);
     } catch (error) {
+      enqueueSnackbar(error?.message, { variant: "error" });
       console.log(error);
     }
   };
