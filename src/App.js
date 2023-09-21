@@ -49,9 +49,9 @@ function App() {
     );
   }
 
-  return(
-    <HomePage />
-  )
+  // return(
+  //   <HomePage />
+  // )
 
   return (
     <Routes>

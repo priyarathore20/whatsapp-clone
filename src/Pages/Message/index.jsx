@@ -9,6 +9,7 @@ import {
   onSnapshot,
   query,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { MdSend } from "react-icons/md";
 import {
@@ -57,6 +58,14 @@ const Messages = ({ currentConversation }) => {
         },
         { merge: true }
       );
+
+      const chatCollection = doc(db, "chats", messagesref);
+      updateDoc(chatCollection, {
+        lastMessage: message,
+        lastMessageTimestamp: timestamp,
+        lastMessageUserId: uid,
+      });
+
       console.log("message sent");
 
       setMessage("");

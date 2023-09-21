@@ -60,8 +60,6 @@ const Sidebar = ({
         // }
       }
     })();
-
-    return () => {};
   }, []);
 
   const handleLogoutClick = () => {

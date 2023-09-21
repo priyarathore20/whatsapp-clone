@@ -54,6 +54,8 @@ const HomePage = () => {
     })();
   }, []);
 
+  console.log(currentConversation);
+
   return (
     <Home>
       <Sidebar
