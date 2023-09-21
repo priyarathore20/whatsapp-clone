@@ -1,7 +1,5 @@
-import { routes } from "./Router/routes";
 import { getAuth } from "firebase/auth";
 import React, { useContext, useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import app from "./firebaseConfig";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { AuthContext } from "./Context/AppContext";
