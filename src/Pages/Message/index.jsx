@@ -1,14 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Header } from "../../Components/Sidebar/styles";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import {
   arrayUnion,
+  collection,
   doc,
-  getDoc,
   getFirestore,
+  onSnapshot,
+  query,
   setDoc,
 } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 import { MdSend } from "react-icons/md";
 import {
   Avatar,
@@ -24,11 +25,12 @@ import { AuthContext } from "../../Context/AppContext";
 import { useSnackbar } from "notistack";
 
 const Messages = ({ currentConversation }) => {
+  const chatRef = useRef();
+
   const [message, setMessage] = useState("");
   const [chats, setChats] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
   const db = getFirestore(app);
-  const auth = getAuth(app);
   const { currentUser } = useContext(AuthContext);
   const messagesref = currentConversation?.messagesRef;
 
@@ -65,29 +67,24 @@ const Messages = ({ currentConversation }) => {
   };
 
   useEffect(() => {
-    (async () => {
-      const messagesRef = currentConversation?.messagesRef;
+    const q = query(collection(db, "messages"));
+    const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+      const fetchedMessages = [];
 
-      console.log(messagesRef);
-      if (messagesRef) {
-        try {
-          const documentRef = doc(db, "messages", "E97mi4gDR3tUr1VcXM3v");
-          const documentSnapshot = await getDoc(documentRef);
+      QuerySnapshot.forEach((doc) => {
+        fetchedMessages.push({ ...doc.data(), id: doc.id });
+        setChats(doc.data()?.chats || []);
+      });
+    });
 
-          if (documentSnapshot.exists()) {
-            setChats(documentSnapshot.data()?.chats || []);
-          } else {
-            console.log("No doc");
-          }
-        } catch (error) {
-          console.log(error);
-          return false;
-        }
-      }
-    })();
-
-    return () => {};
+    return () => unsubscribe;
   }, []);
+
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [chats]);
 
   return (
     <MessageWrapper>
@@ -102,7 +99,7 @@ const Messages = ({ currentConversation }) => {
         </HeaderName>
         <BsThreeDotsVertical style={{ color: "white", cursor: "pointer" }} />
       </Header>
-      <Chat>
+      <Chat ref={chatRef}>
         {chats?.map((message, index) => (
           <ChatItem key={index} isSent={message?.sentBy === currentUser?.uid}>
             <p>{message?.content}</p>

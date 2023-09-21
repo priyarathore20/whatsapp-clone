@@ -1,11 +1,13 @@
-import { getAuth } from "firebase/auth";
-import React, { useContext, useEffect, useState } from "react";
-import app from "./firebaseConfig";
-import { doc, getDoc, getFirestore } from "firebase/firestore";
-import { AuthContext } from "./Context/AppContext";
-import { Loader } from "./App.styled";
-import HomePage from "./Pages/HomePage";
-import LandingPage from "./Pages/LandingPage";
+
+import { getAuth } from 'firebase/auth';
+import React, { useContext, useEffect, useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import app from './firebaseConfig';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { AuthContext } from './Context/AppContext';
+import { Loader } from './App.styled';
+import HomePage from './Pages/HomePage';
+import LandingPage from './Pages/LandingPage';
 function App() {
   const auth = getAuth(app);
   const db = getFirestore(app);
@@ -17,9 +19,9 @@ function App() {
       console.log(user);
       if (user) {
         try {
-          const documentRef = doc(db, "Profiles", user.uid);
+          const documentRef = doc(db, 'Profiles', user.uid);
           const documentSnapshot = await getDoc(documentRef);
-          console.log("here");
+          console.log('here');
           if (documentSnapshot.exists()) {
             updateUser(documentSnapshot.data());
             console.log(documentSnapshot.data());
@@ -27,7 +29,7 @@ function App() {
             updateUser(null);
           }
         } catch (error) {
-          console.error("Error fetching document:", error);
+          console.error('Error fetching document:', error);
         } finally {
           setLoading(false);
         }
@@ -47,7 +49,20 @@ function App() {
     );
   }
 
-  return <>{currentUser ? <HomePage /> : <LandingPage />}</>;
+  return(
+    <HomePage />
+  )
+
+  return (
+    <Routes>
+      <Route path="*" element={<Navigate to="/" replace />}></Route>
+      <Route path="/" element={<WhatsApp currentUser={currentUser} />}></Route>
+    </Routes>
+  );
 }
 
 export default App;
+
+const WhatsApp = ({ currentUser }) => {
+  return <>{currentUser ? <HomePage /> : <LandingPage />}</>;
+};

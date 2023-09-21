@@ -7,6 +7,7 @@ import { GlobalStyles } from './App.styled';
 import { ThemeProvider } from 'styled-components';
 import AuthContextProvider from './Context/AppContext';
 import { SnackbarProvider } from 'notistack';
+import { BrowserRouter } from 'react-router-dom';
 
 const darkTheme = {
   color: {
@@ -30,6 +31,9 @@ root.render(
         <GlobalStyles />
         <App />
         </SnackbarProvider>
+        {/* <BrowserRouter> */}
+          <App />
+        {/* </BrowserRouter> */}
       </ThemeProvider>
     </AuthContextProvider>
   </React.StrictMode>

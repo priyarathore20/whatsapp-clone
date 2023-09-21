@@ -26,7 +26,6 @@ const Sidebar = ({
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const db = getFirestore(app);
-
   const logoutUser = () => {
     signOut(auth)
       .then(() => {
@@ -51,7 +50,7 @@ const Sidebar = ({
         const documentSnapshot = await getDoc(documentRef);
 
         if (documentSnapshot.exists()) {
-          console.log(documentSnapshot.data()?.chats);
+          console.log(documentSnapshot.data());
         } else {
           console.log("No doc");
         }

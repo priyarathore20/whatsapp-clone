@@ -13,7 +13,6 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { AuthContext } from "../../Context/AppContext.js";
 import { useSnackbar } from "notistack";
 
@@ -22,8 +21,7 @@ const LandingPage = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [isNewUser, setIsNewUser] = useState(false);
-  const [image, setImage] = useState(null);
-  const storage = getStorage(app);
+
   const auth = getAuth(app);
   const db = getFirestore(app);
   const { currentUser } = useContext(AuthContext);
@@ -42,10 +40,6 @@ const LandingPage = () => {
       });
   };
 
-  const handleImageChange = (e) => {
-    setImage(e.target?.files[0]);
-  };
-
   const handleSignupUser = async (e) => {
     e.preventDefault();
     try {
@@ -56,20 +50,11 @@ const LandingPage = () => {
       );
       console.log("user created", data);
 
-      // let avatarURL = "";
-      // const avatarRef = ref(
-      //   storage,
-      //   `avatar/${data?.user?.uid}.${image.name.split(".").pop()}`
-      // );
-      // const snapshot = await uploadBytes(avatarRef, image);
-      // avatarURL = snapshot?.metadata?.fullPath;
-
       const documentID = data.user.uid;
       const dataToAdd = {
         name: fullName,
         phone: phoneNumber,
         email: email,
-        // avatarURL: avatarURL,
         uid: data.user.uid,
       };
       addingUserdata(documentID, dataToAdd);
@@ -90,6 +75,7 @@ const LandingPage = () => {
       console.log(error);
     }
   };
+
   return (
     <LoginPage>
       <div className="login-navbar"></div>
@@ -165,15 +151,7 @@ const LandingPage = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <p className="number">
-                Select your avatar:{" "}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="number-input"
-                />
-              </p>
+
               <button onClick={handleSignupUser} className="login-btn">
                 Next
               </button>

@@ -35,8 +35,8 @@ export const LoginBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    width: 1000px;
-    margin: 27px 98px 28px;
+    width: 100%;
+    padding: 27px 98px 28px;
   }
 
   .logo-title {
@@ -62,10 +62,11 @@ export const LoginWindow = styled.div`
   .login-window-details {
     padding: 60px;
     display: flex;
+    gap: 20px;
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
-    height: 100%;
+    /* height: 100%; */
   }
 
   .number-title {
@@ -130,6 +131,7 @@ export const LoginWindow = styled.div`
     cursor: pointer;
     border-radius: 3px;
     margin-bottom: 5px;
+    cursor: pointer;
   }
 
   .login-link{
