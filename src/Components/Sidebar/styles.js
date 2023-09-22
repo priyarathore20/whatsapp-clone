@@ -84,11 +84,12 @@ export const SearchInputWrapper = styled.div`
     margin-right: 14px;
   }
 `;
-export const SearchInput = styled.div`
+export const SearchInput = styled.form`
   background-color: ${({ theme }) => theme.color.panelHeaderBackground};
   border-radius: 8px;
   padding-left: 12px;
   display: flex;
+  /* flex-direction: column; */
   align-items: center;
   width: 100%;
 
@@ -111,4 +112,29 @@ export const SearchInput = styled.div`
     outline: none;
     border: none;
   }
-`;
+`
+
+export const SearchCard = styled.div`
+width: 80%;
+height: 50px;
+display: flex;
+align-items: center;
+justify-content: center;
+background-color: #AEBAC1;
+margin-left: 20px;
+border-radius: 10px;
+gap: 20px;
+margin-top: 10px;
+
+p{
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+img{
+width: 20%;
+height: 90%;
+
+}
+`

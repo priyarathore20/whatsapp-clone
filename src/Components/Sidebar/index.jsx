@@ -9,6 +9,7 @@ import {
   Header,
   HeaderIcon,
   HeaderIcons,
+  SearchCard,
   SearchInput,
   SearchInputWrapper,
   SidebarWrapper,
@@ -16,7 +17,15 @@ import {
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import app from "../../firebaseConfig";
 import { useSnackbar } from "notistack";
-import { doc, getDoc, getFirestore } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from "firebase/firestore";
 
 const Sidebar = ({
   conversations = [],
@@ -24,6 +33,9 @@ const Sidebar = ({
 }) => {
   const auth = getAuth(app);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const [search, setSearch] = useState("");
+  const [user, setUser] = useState(null);
+  const [show, setShow] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const db = getFirestore(app);
   const logoutUser = () => {
@@ -41,10 +53,6 @@ const Sidebar = ({
 
   useEffect(() => {
     (async () => {
-      // const messagesRef = conversations?.messagesRef;
-
-      // console.log(messagesRef);
-      // if (messagesRef) {
       try {
         const documentRef = doc(db, "chats", "E97mi4gDR3tUr1VcXM3v");
         const documentSnapshot = await getDoc(documentRef);
@@ -68,6 +76,23 @@ const Sidebar = ({
 
   const handleLogoutCancel = () => {
     setShowLogoutDialog(false);
+  };
+
+  const searchUser = async (e) => {
+    e.preventDefault();
+    try {
+      const collectionRef = collection(db, "Profiles");
+      const fieldToQuery = "phone";
+      const valueToMatch = search;
+      const q = query(collectionRef, where(fieldToQuery, "==", valueToMatch));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data());
+        setUser(doc.data());
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -109,16 +134,34 @@ const Sidebar = ({
         </HeaderIcons>
       </Header>
       <SearchInputWrapper>
-        <SearchInput>
+        <SearchInput onSubmit={searchUser}>
           <span>
-            <BsSearch />
+            <BsSearch type="submit" onClick={searchUser} />
           </span>
-          <input type="search" placeholder="Search or start new chat" />
+          <input
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
+            type="search"
+            placeholder="Search or start new chat"
+          />
         </SearchInput>
         <div>
           <BsFilter />
         </div>
       </SearchInputWrapper>
+      {user ? (
+        <SearchCard>
+          <img
+            src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-social-media-user-vector-default-avatar-profile-icon-social-media-user-vector-portrait-176194876.jpg"
+            alt=""
+          />
+          <p>{user.name}</p>
+        </SearchCard>
+      ) : (
+        <SearchCard>
+          <p>No user found</p>
+        </SearchCard>
+      )}
       {conversations?.map((item, index) => (
         <ChatCard
           key={index}
