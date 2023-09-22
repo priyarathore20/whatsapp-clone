@@ -1,9 +1,10 @@
-import styled from "styled-components/macro";
+import styled from 'styled-components/macro';
 
 export const SidebarWrapper = styled.div`
   height: 100%;
   width: 30%;
   border-right: 1px solid #ccc;
+  position: relative;
 `;
 
 export const Header = styled.div`
@@ -84,7 +85,30 @@ export const SearchInputWrapper = styled.div`
     margin-right: 14px;
   }
 `;
-export const SearchInput = styled.form`
+
+export const SearchedUsers = styled.div`
+  width: 150%;
+  margin-left: 10px;
+  min-height: 200px;
+  max-height: 100%;
+  border-radius: 20px;
+  position: absolute;
+  background-color: ${({ theme }) => theme.color.panelHeaderBackground};
+  padding-top: 30px;
+  
+  .close-icon {
+    padding: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+  }
+  svg {
+    color: white;
+  }
+`;
+
+export const SearchInput = styled.div`
   background-color: ${({ theme }) => theme.color.panelHeaderBackground};
   border-radius: 8px;
   padding-left: 12px;
@@ -112,29 +136,28 @@ export const SearchInput = styled.form`
     outline: none;
     border: none;
   }
-`
+`;
 
 export const SearchCard = styled.div`
-width: 80%;
-height: 50px;
-display: flex;
-align-items: center;
-justify-content: center;
-background-color: #AEBAC1;
-margin-left: 20px;
-border-radius: 10px;
-gap: 20px;
-margin-top: 10px;
+  width: 80%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #aebac1;
+  margin-left: 20px;
+  border-radius: 10px;
+  gap: 20px;
+  margin-top: 10px;
 
-p{
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
+  p {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
 
-img{
-width: 20%;
-height: 90%;
-
-}
-`
+  img {
+    width: 20%;
+    height: 90%;
+  }
+`;

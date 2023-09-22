@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { MdHistory } from "react-icons/md";
-import { LuMessageSquarePlus } from "react-icons/lu";
-import { BsFilter, BsSearch, BsThreeDotsVertical } from "react-icons/bs";
-import { HiMiniUserGroup } from "react-icons/hi2";
-import ChatCard from "../ChatCard";
-import "./styles.js";
+import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { MdHistory } from 'react-icons/md';
+import { LuMessageSquarePlus } from 'react-icons/lu';
+import { BsFilter, BsSearch, BsThreeDotsVertical } from 'react-icons/bs';
+import { AiOutlineClose } from 'react-icons/ai';
+import { HiMiniUserGroup } from 'react-icons/hi2';
+import ChatCard from '../ChatCard';
+import './styles.js';
 import {
   Header,
   HeaderIcon,
@@ -12,11 +13,12 @@ import {
   SearchCard,
   SearchInput,
   SearchInputWrapper,
+  SearchedUsers,
   SidebarWrapper,
-} from "./styles";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import app from "../../firebaseConfig";
-import { useSnackbar } from "notistack";
+} from './styles';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import app from '../../firebaseConfig';
+import { useSnackbar } from 'notistack';
 import {
   collection,
   doc,
@@ -25,7 +27,8 @@ import {
   getFirestore,
   query,
   where,
-} from "firebase/firestore";
+} from 'firebase/firestore';
+import { debounce } from '../../utility';
 
 const Sidebar = ({
   conversations = [],
@@ -33,34 +36,37 @@ const Sidebar = ({
 }) => {
   const auth = getAuth(app);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [user, setUser] = useState(null);
   const [show, setShow] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
+  const [searchLoading, setSearchLoading] = useState(false);
+  const searchUserBoxRef = useRef(null);
+
   const db = getFirestore(app);
   const logoutUser = () => {
     signOut(auth)
       .then(() => {
-        console.log("signed out");
+        console.log('signed out');
         setShowLogoutDialog(false);
-        enqueueSnackbar("Logged out successfully", { variant: "success" });
+        enqueueSnackbar('Logged out successfully', { variant: 'success' });
       })
-      .catch(() => console.log("error"));
-    enqueueSnackbar("Error logging out. please try again", {
-      variant: "error",
+      .catch(() => console.log('error'));
+    enqueueSnackbar('Error logging out. please try again', {
+      variant: 'error',
     });
   };
 
   useEffect(() => {
     (async () => {
       try {
-        const documentRef = doc(db, "chats", "E97mi4gDR3tUr1VcXM3v");
+        const documentRef = doc(db, 'chats', 'E97mi4gDR3tUr1VcXM3v');
         const documentSnapshot = await getDoc(documentRef);
 
         if (documentSnapshot.exists()) {
           console.log(documentSnapshot.data());
         } else {
-          console.log("No doc");
+          console.log('No doc');
         }
       } catch (error) {
         console.log(error);
@@ -78,22 +84,32 @@ const Sidebar = ({
     setShowLogoutDialog(false);
   };
 
-  const searchUser = async (e) => {
-    e.preventDefault();
+  const searchUser = async (valueToMatch) => {
     try {
-      const collectionRef = collection(db, "Profiles");
-      const fieldToQuery = "phone";
-      const valueToMatch = search;
-      const q = query(collectionRef, where(fieldToQuery, "==", valueToMatch));
+      setSearchLoading(true);
+      const collectionRef = collection(db, 'Profiles');
+      const fieldToQuery = 'phone';
+
+      const q = query(collectionRef, where(fieldToQuery, '==', valueToMatch));
       const querySnapshot = await getDocs(q);
+      console.log(querySnapshot);
       querySnapshot.forEach((doc) => {
         console.log(doc.data());
         setUser(doc.data());
-        setShow(true);
+        setSearchLoading(false);
       });
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const debounceForSearch = debounce(searchUser, 500);
+  const optimizedFn = useCallback(debounceForSearch, []);
+
+  const handleSearchInputChange = (e) => {
+    let value = e.target.value;
+    setSearch(value);
+    optimizedFn(value);
   };
 
   return (
@@ -106,19 +122,19 @@ const Sidebar = ({
 
         <HeaderIcons>
           <HeaderIcon>
-            {" "}
+            {' '}
             <HiMiniUserGroup />
           </HeaderIcon>
           <HeaderIcon>
-            {" "}
+            {' '}
             <MdHistory />
           </HeaderIcon>
           <HeaderIcon>
-            {" "}
+            {' '}
             <LuMessageSquarePlus />
           </HeaderIcon>
           <HeaderIcon>
-            {" "}
+            {' '}
             <BsThreeDotsVertical onClick={handleLogoutClick} />
             {showLogoutDialog && (
               <div className="logout-dialog">
@@ -135,33 +151,41 @@ const Sidebar = ({
         </HeaderIcons>
       </Header>
       <SearchInputWrapper>
-        <SearchInput onSubmit={searchUser}>
-          <span>
+        <SearchInput>
+          {/* <span>
             <BsSearch type="submit" onClick={searchUser} />
-          </span>
+          </span> */}
           <input
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={handleSearchInputChange}
             value={search}
             type="search"
             placeholder="Search or start new chat"
+            onFocus={() => setShow(true)}
           />
         </SearchInput>
         <div>
           <BsFilter />
         </div>
       </SearchInputWrapper>
-      {user ? (
-        <SearchCard show={show}>
-          <img
-            src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-social-media-user-vector-default-avatar-profile-icon-social-media-user-vector-portrait-176194876.jpg"
-            alt=""
-          />
-          <p>{user.name}</p>
-        </SearchCard>
-      ) : (
-        <SearchCard>
-          <p>No user found</p>
-        </SearchCard>
+      {show && (
+        <SearchedUsers id="searchUserBox" ref={searchUserBoxRef}>
+          <div className="close-icon" onClick={() => setShow(false)}>
+            <AiOutlineClose />
+          </div>
+          {user ? (
+            <SearchCard show={show}>
+              <img
+                src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-social-media-user-vector-default-avatar-profile-icon-social-media-user-vector-portrait-176194876.jpg"
+                alt=""
+              />
+              <p>{user?.name}</p>
+            </SearchCard>
+          ) : (
+            <SearchCard>
+              <p>No user found</p>
+            </SearchCard>
+          )}
+        </SearchedUsers>
       )}
       {conversations?.map((item, index) => (
         <ChatCard
