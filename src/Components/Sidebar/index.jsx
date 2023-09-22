@@ -89,6 +89,7 @@ const Sidebar = ({
       querySnapshot.forEach((doc) => {
         console.log(doc.data());
         setUser(doc.data());
+        setShow(true);
       });
     } catch (error) {
       console.log(error);
@@ -150,7 +151,7 @@ const Sidebar = ({
         </div>
       </SearchInputWrapper>
       {user ? (
-        <SearchCard>
+        <SearchCard show={show}>
           <img
             src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-social-media-user-vector-default-avatar-profile-icon-social-media-user-vector-portrait-176194876.jpg"
             alt=""
