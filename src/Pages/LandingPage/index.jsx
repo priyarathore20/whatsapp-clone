@@ -21,7 +21,7 @@ const LandingPage = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [isNewUser, setIsNewUser] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const auth = getAuth(app);
   const db = getFirestore(app);
   const { currentUser } = useContext(AuthContext);
@@ -68,9 +68,12 @@ const LandingPage = () => {
   const handleLoginUser = async (event) => {
     event.preventDefault();
     try {
+      setLoading(true);
       const data = await signInWithEmailAndPassword(auth, email, phoneNumber);
+      setLoading(false);
       console.log("user created", data);
     } catch (error) {
+      setLoading(false);
       enqueueSnackbar(error?.message, { variant: "error" });
       console.log(error);
     }
@@ -98,6 +101,7 @@ const LandingPage = () => {
                   type="text"
                   onChange={(e) => setPhoneNumber(e.target.value)}
                   value={phoneNumber}
+                  disabled={loading}
                 />
               </p>
               <input
@@ -105,10 +109,15 @@ const LandingPage = () => {
                 placeholder="Email"
                 className="number"
                 value={email}
+                disabled={loading}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <button onClick={handleLoginUser} className="login-btn">
-                Next
+              <button
+                disabled={loading}
+                onClick={handleLoginUser}
+                className="login-btn"
+              >
+                {loading ? "loading..." : "Next"}
               </button>
               <p onClick={() => setIsNewUser(true)} className="login-link">
                 New user? Get started

@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { MdHistory } from 'react-icons/md';
-import { LuMessageSquarePlus } from 'react-icons/lu';
-import { BsFilter, BsSearch, BsThreeDotsVertical } from 'react-icons/bs';
-import { AiOutlineClose } from 'react-icons/ai';
-import { HiMiniUserGroup } from 'react-icons/hi2';
-import ChatCard from '../ChatCard';
-import './styles.js';
+import React, { useCallback, useEffect, useState, useRef } from "react";
+import { MdHistory } from "react-icons/md";
+import { LuMessageSquarePlus } from "react-icons/lu";
+import { BsFilter, BsSearch, BsThreeDotsVertical } from "react-icons/bs";
+import { AiOutlineClose } from "react-icons/ai";
+import { HiMiniUserGroup } from "react-icons/hi2";
+import ChatCard from "../ChatCard";
+import "./styles.js";
 import {
   Header,
   HeaderIcon,
@@ -15,10 +15,10 @@ import {
   SearchInputWrapper,
   SearchedUsers,
   SidebarWrapper,
-} from './styles';
-import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
-import app from '../../firebaseConfig';
-import { useSnackbar } from 'notistack';
+} from "./styles";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import app from "../../firebaseConfig";
+import { useSnackbar } from "notistack";
 import {
   collection,
   doc,
@@ -27,8 +27,9 @@ import {
   getFirestore,
   query,
   where,
-} from 'firebase/firestore';
-import { debounce } from '../../utility';
+} from "firebase/firestore";
+import { debounce } from "../../utility";
+import CircularLoader from "../CircularLoader";
 
 const Sidebar = ({
   conversations = [],
@@ -36,37 +37,36 @@ const Sidebar = ({
 }) => {
   const auth = getAuth(app);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [user, setUser] = useState(null);
   const [show, setShow] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-  const [searchLoading, setSearchLoading] = useState(false);
-  const searchUserBoxRef = useRef(null);
-
   const db = getFirestore(app);
+  const [searchLoading, setsearchLoading] = useState(false);
+
   const logoutUser = () => {
     signOut(auth)
       .then(() => {
-        console.log('signed out');
+        console.log("signed out");
         setShowLogoutDialog(false);
-        enqueueSnackbar('Logged out successfully', { variant: 'success' });
+        enqueueSnackbar("Logged out successfully", { variant: "success" });
       })
-      .catch(() => console.log('error'));
-    enqueueSnackbar('Error logging out. please try again', {
-      variant: 'error',
+      .catch(() => console.log("error"));
+    enqueueSnackbar("Error logging out. please try again", {
+      variant: "error",
     });
   };
 
   useEffect(() => {
     (async () => {
       try {
-        const documentRef = doc(db, 'chats', 'E97mi4gDR3tUr1VcXM3v');
+        const documentRef = doc(db, "chats", "E97mi4gDR3tUr1VcXM3v");
         const documentSnapshot = await getDoc(documentRef);
 
         if (documentSnapshot.exists()) {
           console.log(documentSnapshot.data());
         } else {
-          console.log('No doc');
+          console.log("No doc");
         }
       } catch (error) {
         console.log(error);
@@ -86,19 +86,19 @@ const Sidebar = ({
 
   const searchUser = async (valueToMatch) => {
     try {
-      setSearchLoading(true);
-      const collectionRef = collection(db, 'Profiles');
-      const fieldToQuery = 'phone';
-
-      const q = query(collectionRef, where(fieldToQuery, '==', valueToMatch));
+      setsearchLoading(true);
+      const collectionRef = collection(db, "Profiles");
+      const fieldToQuery = "phone";
+      const q = query(collectionRef, where(fieldToQuery, "==", valueToMatch));
       const querySnapshot = await getDocs(q);
-      console.log(querySnapshot);
+      // console.log(querySnapshot);
       querySnapshot.forEach((doc) => {
-        console.log(doc.data());
+        // console.log(doc.data());
         setUser(doc.data());
-        setSearchLoading(false);
       });
+      setsearchLoading(false);
     } catch (error) {
+      setsearchLoading(false);
       console.log(error);
     }
   };
@@ -109,6 +109,7 @@ const Sidebar = ({
   const handleSearchInputChange = (e) => {
     let value = e.target.value;
     setSearch(value);
+    setUser(null);
     optimizedFn(value);
   };
 
@@ -122,19 +123,19 @@ const Sidebar = ({
 
         <HeaderIcons>
           <HeaderIcon>
-            {' '}
+            {" "}
             <HiMiniUserGroup />
           </HeaderIcon>
           <HeaderIcon>
-            {' '}
+            {" "}
             <MdHistory />
           </HeaderIcon>
           <HeaderIcon>
-            {' '}
+            {" "}
             <LuMessageSquarePlus />
           </HeaderIcon>
           <HeaderIcon>
-            {' '}
+            {" "}
             <BsThreeDotsVertical onClick={handleLogoutClick} />
             {showLogoutDialog && (
               <div className="logout-dialog">
@@ -152,23 +153,21 @@ const Sidebar = ({
       </Header>
       <SearchInputWrapper>
         <SearchInput>
-          {/* <span>
-            <BsSearch type="submit" onClick={searchUser} />
-          </span> */}
           <input
             onChange={handleSearchInputChange}
             value={search}
-            type="search"
+            type="text"
             placeholder="Search or start new chat"
             onFocus={() => setShow(true)}
           />
+          {searchLoading && <CircularLoader />}
         </SearchInput>
         <div>
           <BsFilter />
         </div>
       </SearchInputWrapper>
-      {show && (
-        <SearchedUsers id="searchUserBox" ref={searchUserBoxRef}>
+      {show && search && user && (
+        <SearchedUsers>
           <div className="close-icon" onClick={() => setShow(false)}>
             <AiOutlineClose />
           </div>
