@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+  useContext,
+} from "react";
 import { MdHistory } from "react-icons/md";
 import { LuMessageSquarePlus } from "react-icons/lu";
 import { BsFilter, BsSearch, BsThreeDotsVertical } from "react-icons/bs";
@@ -20,6 +26,7 @@ import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import app from "../../firebaseConfig";
 import { useSnackbar } from "notistack";
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
@@ -30,6 +37,7 @@ import {
 } from "firebase/firestore";
 import { debounce } from "../../utility";
 import CircularLoader from "../CircularLoader";
+import { AuthContext } from "../../Context/AppContext";
 
 const Sidebar = ({
   conversations = [],
@@ -43,18 +51,23 @@ const Sidebar = ({
   const { enqueueSnackbar } = useSnackbar();
   const db = getFirestore(app);
   const [searchLoading, setsearchLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { currentUser } = useContext(AuthContext);
 
   const logoutUser = () => {
-    signOut(auth)
-      .then(() => {
-        console.log("signed out");
-        setShowLogoutDialog(false);
-        enqueueSnackbar("Logged out successfully", { variant: "success" });
-      })
-      .catch(() => console.log("error"));
-    enqueueSnackbar("Error logging out. please try again", {
-      variant: "error",
-    });
+    try {
+      setLoading(true);
+      signOut(auth);
+      console.log("signed out");
+      setShowLogoutDialog(false);
+      enqueueSnackbar("Logged out successfully", { variant: "success" });
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      enqueueSnackbar("Error logging out. please try again", {
+        variant: "error",
+      });
+    }
   };
 
   useEffect(() => {
@@ -113,6 +126,11 @@ const Sidebar = ({
     optimizedFn(value);
   };
 
+  const handleUserClick = (user) => {
+    // Call handleCurrentConversation to set the new conversation as the current one
+    handleCurrentConversation(user);
+  };
+
   return (
     <SidebarWrapper>
       <Header>
@@ -143,8 +161,12 @@ const Sidebar = ({
                 <button className="logout-btn" onClick={handleLogoutCancel}>
                   Cancel
                 </button>
-                <button className="logout-btn" onClick={logoutUser}>
-                  Logout
+                <button
+                  disabled={loading}
+                  className="logout-btn"
+                  onClick={logoutUser}
+                >
+                  {loading ? <CircularLoader /> : "Logout"}
                 </button>
               </div>
             )}
@@ -172,7 +194,7 @@ const Sidebar = ({
             <AiOutlineClose />
           </div>
           {user ? (
-            <SearchCard show={show}>
+            <SearchCard onClick={handleUserClick} show={show}>
               <img
                 src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-social-media-user-vector-default-avatar-profile-icon-social-media-user-vector-portrait-176194876.jpg"
                 alt=""

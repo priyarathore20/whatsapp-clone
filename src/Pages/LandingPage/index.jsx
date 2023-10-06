@@ -15,11 +15,12 @@ import {
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { AuthContext } from "../../Context/AppContext.js";
 import { useSnackbar } from "notistack";
+import CircularLoader from "../../Components/CircularLoader/index.jsx";
 
 const LandingPage = () => {
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("7011266334");
   const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("rathorepriya1705@gmail.com");
   const [isNewUser, setIsNewUser] = useState(false);
   const [loading, setLoading] = useState(false);
   const auth = getAuth(app);
@@ -61,7 +62,7 @@ const LandingPage = () => {
       currentUser(data.user);
     } catch (error) {
       console.log(error);
-      enqueueSnackbar(error?.message, { variant: "error" });
+      enqueueSnackbar("Details cannot be empty", { variant: "error" });
     }
   };
 
@@ -74,7 +75,7 @@ const LandingPage = () => {
       console.log("user created", data);
     } catch (error) {
       setLoading(false);
-      enqueueSnackbar(error?.message, { variant: "error" });
+      enqueueSnackbar("Details cannot be empty", { variant: "error" });
       console.log(error);
     }
   };
@@ -117,7 +118,7 @@ const LandingPage = () => {
                 onClick={handleLoginUser}
                 className="login-btn"
               >
-                {loading ? "loading..." : "Next"}
+                {loading ? <CircularLoader /> : "Next"}
               </button>
               <p onClick={() => setIsNewUser(true)} className="login-link">
                 New user? Get started

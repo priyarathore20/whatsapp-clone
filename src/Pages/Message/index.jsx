@@ -27,7 +27,6 @@ import { useSnackbar } from "notistack";
 
 const Messages = ({ currentConversation }) => {
   const chatRef = useRef();
-
   const [message, setMessage] = useState("");
   const [chats, setChats] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
